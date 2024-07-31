@@ -6,8 +6,8 @@ provider "azurerm" {
 # Terraform backend configuration block -precreated
 terraform {
   backend "azurerm" {
-    resource_group_name  = "rg-trial"
-    storage_account_name = "trialstga001"
+    resource_group_name  = "krishna001"
+    storage_account_name = "krishnasa001"
     container_name       = "ccpterraformstatefile"
     key                  = "ccpsterraform.tfstate"
   }

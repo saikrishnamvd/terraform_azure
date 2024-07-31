@@ -4,7 +4,7 @@ data "azurerm_client_config" "current" {}
 # Create azure RG
 resource "azurerm_resource_group" "AML" {
   name     = "trial-RG"
-  location = "West Europe"
+  location = "East US"
 }
 
 # Create App Insight
