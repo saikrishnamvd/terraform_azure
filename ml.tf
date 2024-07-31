@@ -3,13 +3,13 @@ data "azurerm_client_config" "current" {}
 
 # Create azure RG
 resource "azurerm_resource_group" "AML" {
-  name     = "CloudQuickPOCsML-RG"
-  location = "West Europe"
+  name     = "trial-RG"
+  location = "East US"
 }
 
 # Create App Insight
 resource "azurerm_application_insights" "AML" {
-  name                = "aml-cloudquickpocsappinsight"
+  name                = "aml-trialappinsight"
   location            = azurerm_resource_group.AML.location
   resource_group_name = azurerm_resource_group.AML.name
   application_type    = "web"
@@ -17,7 +17,7 @@ resource "azurerm_application_insights" "AML" {
 
 # Create Azure Key Vault
 resource "azurerm_key_vault" "AML" {
-  name                = "cloudquickpockv001"
+  name                = "trialkv001"
   location            = azurerm_resource_group.AML.location
   resource_group_name = azurerm_resource_group.AML.name
   tenant_id           = data.azurerm_client_config.current.tenant_id
@@ -26,7 +26,7 @@ resource "azurerm_key_vault" "AML" {
 
 # Create Azure Storage Account
 resource "azurerm_storage_account" "AML" {
-  name                     = "cloudquickpocsstga001"
+  name                     = "trialstga001"
   location                 = azurerm_resource_group.AML.location
   resource_group_name      = azurerm_resource_group.AML.name
   account_tier             = "Standard"
@@ -35,7 +35,7 @@ resource "azurerm_storage_account" "AML" {
 
 # Create Azure ML Service
 resource "azurerm_machine_learning_workspace" "AML" {
-  name                    = "cloudquickpocs-aml-workspace"
+  name                    = "trial-aml-workspace"
   location                = azurerm_resource_group.AML.location
   resource_group_name     = azurerm_resource_group.AML.name
   application_insights_id = azurerm_application_insights.AML.id

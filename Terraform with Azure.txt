@@ -1,0 +1,105 @@
+For Terraform configuration with Azure:
+
+1. In your terminal, use the Azure CLI tool to setup your account permissions locally.
+
+$ az login
+
+Your browser will open and prompt you to enter your Azure login credentials. After successful authentication, your terminal will display your subscription information.
+
+2. Set the terminal to required id as below:
+az account set --subscription "subscription-id"
+
+3. Create a Service Principal
+Next, create a Service Principal. A Service Principal is an application within Azure Active Directory with the authentication tokens Terraform needs to perform actions on your behalf. Update the <SUBSCRIPTION_ID> with the subscription ID you specified in the previous step.
+
+$ az ad sp create-for-rbac --role="Contributor" --scopes="/subscriptions/<SUBSCRIPTION_ID>"
+
+
+4. Best Practices for terraform: HashiCorp recommends setting these values as environment variables rather than saving them in your Terraform configuration.
+
+Open the Windows powershell as admin and set the below values with the output got in step-3.
+
+$Env:ARM_CLIENT_ID = "<APPID_VALUE>"
+$Env:ARM_CLIENT_SECRET = "<PASSWORD_VALUE>"
+$Env:ARM_SUBSCRIPTION_ID = "<SUBSCRIPTION_ID>"
+$Env:ARM_TENANT_ID = "<TENANT_VALUE>"
+
+
+5. Write Configuration in powershell only.
+
+5.1 Create a folder called learn-terraform-azure.
+
+	New-Item -Path "c:\" -Name "learn-terraform-azure" -ItemType "directory"
+
+5.2 create main.tf file in that directory and write the terraform script.
+
+
+6. Once the script is written give the below commands:
+	
+	terraform init
+	terraform plan
+	terraform apply
+
+7. If you want to destroy all the infra: terraform destroy
+
+8. Additional :
+	
+	terraform fmt --> updates configurations in the current directory for readability and consistency. Terraform will print out the names of the files it modified, if any. In this case, your configuration file was already formatted correctly, so Terraform won't return any file names.
+
+	terraform validate --> to check configuration is syntactically valid and internally consistent.
+
+9. terraform show --> to show what is available in the infra
+
+10. terraform state list --> To get the updated list of resources managed in your workspace.
+
+11. create a variable.tf file to save the variables in that file.
+	
+	variable "resource_group_name" {
+  		default = "myTFResourceGroup"
+	}
+
+12. we can replace and change any particular variable name as below:
+	
+	terraform apply -var "resource_group_name=myNewResourceGroupName"
+
+
+13. Query data with output values
+	
+	create output.tf file and give the below input
+
+	output "resource_group_id" {
+  		value = azurerm_resource_group.rg.id
+	}
+
+	After the above, run terraform apply to sync with the output config.
+	then you can query the output as below:
+
+	terraform output resource_group_id
+
+
+14. Store remote state
+
+	In production environments you should keep your state secure and encrypted, where your 	teammates can access it to collaborate on infrastructure.
+
+
+	HCP Terraform allows teams to easily version, audit, and collaborate on infrastructure 	changes. It can also store access credentials off of developer machines, and provides a safe, 	stable 	environment for long-running Terraform processes.
+
+
+o9qw1HShX8FwAw.atlasv1.nI4N3ZRhSVdirJCnjiEYSWZ5NwgvfmjvPZINIJrLEutD9lRaRT37dC0wdBTbyIMAOzg
+
+cPHfbqjOlDwDcQ.atlasv1.rzXhPDjtZY1qkaS0p9zyKrN8fwCQZKGDoVqdiqN2z1xVFzT8fBj2HVguvLbDRRdzUfA
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
