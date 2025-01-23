@@ -70,7 +70,8 @@ Expected Response:
     "p_bot": 0.123
 }
    ```
-   
+---
+
 ## Cloud Deployment with Terraform
 1. **Configure AWS Credentials**: Set AWS credentials as environment variables:
    ```bash
@@ -101,29 +102,27 @@ Expected Response:
 
 ---
 
-
-## Deployment
-### Steps:
-1. Build the Docker image and push it to a container registry (e.g., AWS ECR).
-2. Deploy the infrastructure using the provided Terraform scripts.
-3. The ECS service will run the Docker container, and the load balancer DNS will expose the API.
-
-### Monitoring:
-- **AWS CloudWatch**: Monitor ECS metrics such as CPU and memory usage.
-- **Custom Logs**: Store request/response logs in the S3 bucket.
-
+## Considerations for Production
+  - **Scalability**:
+      - Use AWS Elastic Load Balancer and auto-scaling groups to handle traffic spikes.
+  - **Security**:
+      - Implement HTTPS with an SSL certificate.
+      - Use IAM roles for secure access to S3 and EC2 resources.
+  - **Observability**:
+      - Integrate with Prometheus and Grafana for advanced monitoring.
+  - **Fault Tolerance**:
+      - Deploy the server in multiple availability zones.
+   
 ---
-### 5. Testing
-Run unit tests:
+
+## Unit Testing
+Run the test suite to ensure functionality::
 ```bash
 pytest tests/
 ```
 ---
 
-## Production Readiness
-- **Scaling**: Used ECS auto-scaling to handle traffic spikes.
-- **Security**: Implement IAM roles for S3 and ECS task access.
-- **Error Handling**: Add retry logic for S3 operations and robust error handling in the API.
-- **Load Testing**: Use tools like Locust to simulate high traffic and measure performance.
+## Conclusion
+This project demonstrates a robust, scalable, and cloud-ready inference server. The clear separation of concerns, use of best practices, and attention to production readiness make it suitable for real-world deployment.
 
 ---
