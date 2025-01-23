@@ -51,11 +51,12 @@ uvicorn app.main:app --host 0.0.0.0 --port 8887
 Access the API documentation at `http://localhost:8887/docs`. and POST endpoint at `/bot-score` for predictions.
 
 ### 3. Docker Setup
-Build and run the Docker container:
+If you want to run the Server with Docker Container, Build and run the Docker container:
 ```bash
 docker build -t inference-server .
 docker run -p 8887:8887 inference-server
 ```
+Access the API documentation at `http://localhost:8887/docs`. and POST endpoint at `/bot-score` for predictions.
 
 ### 4. Test the API
 Send a POST request to `http://localhost:8887/bot-score` :
@@ -73,6 +74,7 @@ Expected Response:
 ---
 
 ## Cloud Deployment with Terraform
+In order to deploy the infra using IaS Tool i.e., Terraform, follow the below steps.
 1. **Configure AWS Credentials**: Set AWS credentials as environment variables:
    ```bash
    export AWS_ACCESS_KEY_ID=<your-access-key>
