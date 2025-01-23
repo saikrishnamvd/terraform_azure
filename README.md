@@ -30,6 +30,7 @@ This project implements a RESTful inference server using FastAPI to predict the 
    - Boto3
 
 3. **AWS Configuration**:
+   - This is for cloud deployment of the server. Here AWS is taken as an example. It can be deployed in any cloud using Terraform Scripts being modified accordingly.
    - Set up AWS credentials using `aws configure`.
 
 ---
@@ -42,11 +43,11 @@ pip install -r requirements.txt
 ```
 
 ### 2. Run Locally
-Start the FastAPI server:
+If you want to run the server locally, Start the FastAPI server:
 ```bash
 uvicorn app.main:app --host 0.0.0.0 --port 8887
 ```
-Access the API documentation at `http://localhost:8887/docs`.
+Access the API documentation at `http://localhost:8887/docs`. and POST endpoint at `/bot-score` for predictions.
 
 ### 3. Docker Setup
 Build and run the Docker container:
