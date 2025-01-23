@@ -36,26 +36,26 @@ This project implements a RESTful inference server using FastAPI to predict the 
 
 ## Installation and Usage
 
-### 2. Install Python Dependencies
+### 1. Install Python Dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3. Run Locally
+### 2. Run Locally
 Start the FastAPI server:
 ```bash
 uvicorn app.main:app --host 0.0.0.0 --port 8887
 ```
 Access the API documentation at `http://localhost:8887/docs`.
 
-### 4. Docker Setup
+### 3. Docker Setup
 Build and run the Docker container:
 ```bash
 docker build -t inference-server .
 docker run -p 8887:8887 inference-server
 ```
 
-### 5. Deploy with Terraform
+### 4. Deploy with Terraform
 1. Initialize Terraform:
    ```bash
    cd terraform
@@ -67,7 +67,7 @@ docker run -p 8887:8887 inference-server
    ```
    Confirm the resource creation when prompted.
 
-### 6. Testing
+### 5. Testing
 Run unit tests:
 ```bash
 pytest tests/
