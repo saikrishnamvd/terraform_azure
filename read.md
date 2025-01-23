@@ -6,32 +6,33 @@ This project implements a RESTful inference server using FastAPI to predict the 
 ---
 
 ## Features
-- **Model Integration**: Uses a pre-trained logistic regression model.
-- **RESTful API**: A POST endpoint at `/bot-score` for predictions.
-- **Performance**: Targets a p99 latency of under 200ms.
-- **Persistence**: Logs all requests and responses to an S3 bucket.
-- **Containerization**: Deployable via Docker.
-- **Infrastructure as Code**: Terraform scripts for cloud deployment.
-- **Unit Testing**: Comprehensive test cases for functionality and performance.
+- **API Endpoint**: A single POST endpoint at `/bot-score` to serve predictions.
+- **Dockerized**: Fully containerized for portability and deployment.
+- **Cloud Storage Integration**: Logs requests and responses to AWS S3.
+- **Performance**: Optimized for sub-200ms p99 latency.
+- **Infrastructure as Code**: Terraform scripts for AWS cloud deployment.
+- **Unit Testing**: Comprehensive tests to ensure robustness.
+- **Port Configuration**: Runs on port 8887 as specified.
 
 ---
 
 ## Prerequisites
 1. **Software**:
-   - Python 3.9+
-   - Docker
-   - Terraform
+   - Python 3.9+ with pip.
+   - Docker: Ensure Docker is installed and running.
+   - Terraform: Installed and configured with AWS credentials.
    - AWS CLI (for cloud resource management)
 
-2. **Dependencies**:
+2. **AWS Configuration**:
+   - Set up AWS credentials using `aws configure`.
+   - S3 bucket created for logging requests and responses.
+   - IAM user with access to S3 and EC2.
+     
+3. **Dependencies**:
    - FastAPI
    - Uvicorn
    - Scikit-learn
    - Boto3
-
-3. **AWS Configuration**:
-   - This is for cloud deployment of the server. Here AWS is taken as an example. It can be deployed in any cloud using Terraform Scripts being modified accordingly.
-   - Set up AWS credentials using `aws configure`.
 
 ---
 
@@ -56,46 +57,50 @@ docker build -t inference-server .
 docker run -p 8887:8887 inference-server
 ```
 
-### 4. Deploy with Terraform
-1. Initialize Terraform:
+### 4. Test the API
+Send a POST request to `http://localhost:8887/bot-score` :
    ```bash
-   cd terraform
+   curl -X POST http://localhost:8887/bot-score \
+    -H "Content-Type: application/json" \
+    -d @sample-body.json
+   ```
+Expected Response:
+   ```json
+   {
+    "p_bot": 0.123
+}
+   ```
+   
+## Cloud Deployment with Terraform
+1. **Configure AWS Credentials**: Set AWS credentials as environment variables:
+   ```bash
+   export AWS_ACCESS_KEY_ID=<your-access-key>
+   export AWS_SECRET_ACCESS_KEY=<your-secret-key>
+   ```
+2. **Initialize Terraform**:
+   ```bash
+   cd terraform/
    terraform init
    ```
-2. Apply the configuration:
+3. **Apply Terraform Scripts**:
    ```bash
    terraform apply
    ```
-   Confirm the resource creation when prompted.
-
-### 5. Testing
-Run unit tests:
-```bash
-pytest tests/
-```
+4. **Access the Server**:
+   Once the deployment is complete, Terraform will output the public URL of the server. Use this URL to send POST requests.
 
 ---
 
-## API Reference
-### Endpoint: `/bot-score`
-**Method**: `POST`
-
-**Request Body Schema**:
-```json
-{
-  "x1": 0.1,
-  "x2": 0.2
-}
-```
-
-**Response**:
-```json
-{
-  "p_bot": 0.123
-}
-```
+## Monitoring and Logs
+  - **AWS CloudWatch**:
+      - Monitor server performance, logs, and resource utilization.
+  - **Request Logging**:
+      - Requests and responses are stored in an S3 bucket for analytics.
+  - **Performance Metrics**:
+      - p99 latency is monitored via logs and CloudWatch alarms.
 
 ---
+
 
 ## Deployment
 ### Steps:
@@ -107,6 +112,12 @@ pytest tests/
 - **AWS CloudWatch**: Monitor ECS metrics such as CPU and memory usage.
 - **Custom Logs**: Store request/response logs in the S3 bucket.
 
+---
+### 5. Testing
+Run unit tests:
+```bash
+pytest tests/
+```
 ---
 
 ## Production Readiness
